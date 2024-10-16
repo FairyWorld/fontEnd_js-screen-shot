@@ -1,6 +1,9 @@
+import PlugInParameters from "@/lib/main-entrance/PlugInParameters";
+
 export function drawCrossImg(html: Document) {
   const promises: Promise<string>[] = [];
   const imageNodes = html.querySelectorAll("img");
+  const plugInParameters = new PlugInParameters();
   imageNodes.forEach(element => {
     const href = element.getAttribute("src");
     if (!href) return;
@@ -21,7 +24,17 @@ export function drawCrossImg(html: Document) {
         element.setAttribute("src", base64);
         resolve("转换成功");
       };
-      img.onerror = reject;
+      img.onerror = function(err) {
+        const h2cCrossImgLoadErrFn = plugInParameters?.getH2cCrossImgLoadErrFn();
+        if (h2cCrossImgLoadErrFn && typeof err != "string") {
+          h2cCrossImgLoadErrFn({
+            ...err,
+            imgUrl: href
+          });
+        }
+        // 跨域图片加载失败时，此处不做处理
+        resolve(true);
+      };
       if (href !== null) {
         img.src = href;
       }

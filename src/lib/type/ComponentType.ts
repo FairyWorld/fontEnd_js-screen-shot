@@ -113,6 +113,7 @@ export type screenShotType = {
     cutInfo: positionInfoType;
   }) => void; // 工具栏截图确认回调
   closeCallback?: () => void; // 工具栏关闭回调
+  h2cImgLoadErrCallback?: (err: Event & { imgUrl: string }) => void; // html2canvas跨域图片加载失败回调
   triggerCallback?: (res: {
     code: number;
     msg: string;

@@ -87,6 +87,11 @@ export function setPlugInParameters(options: screenShotType) {
     plugInParameters.setUserToolbar(options.userToolbar);
   }
 
+  // h2c模式下，跨域图片加载失败时的回调函数
+  if (options?.h2cImgLoadErrCallback) {
+    plugInParameters.setH2cCrossImgLoadErrFn(options.h2cImgLoadErrCallback);
+  }
+
   // 处理用户定义的画布事件
   if (options?.canvasEvents) {
     plugInParameters.setCanvasEvents(options.canvasEvents);

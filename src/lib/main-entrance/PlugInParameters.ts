@@ -1,6 +1,7 @@
 import {
   customToolbarType,
   mouseEventType,
+  screenShotType,
   userToolbarType
 } from "@/lib/type/ComponentType";
 
@@ -35,6 +36,7 @@ let useCustomImgSize = false;
 let customImgSize = { w: 0, h: 0 };
 // 调用者定义的工具栏数据
 let userToolbar: Array<customToolbarType> = [];
+let h2cCrossImgLoadErrFn: screenShotType["h2cImgLoadErrCallback"] | null = null;
 let saveCallback: ((code: number, msg: string) => void) | null = null;
 let saveImgTitle: string | null = null;
 let canvasEvents: mouseEventType | null = null;
@@ -60,6 +62,7 @@ export default class PlugInParameters {
       saveImgTitle = null;
       destroyContainer = true;
       userToolbar = [];
+      h2cCrossImgLoadErrFn = null;
     }
   }
 
@@ -223,11 +226,18 @@ export default class PlugInParameters {
       toolbarData.push({ ...item, id: 100 + (i + 1) });
     }
     userToolbar = toolbarData;
-    console.log(userToolbar);
   }
 
   public getUserToolbar() {
     return userToolbar;
+  }
+
+  public setH2cCrossImgLoadErrFn(fn: screenShotType["h2cImgLoadErrCallback"]) {
+    h2cCrossImgLoadErrFn = fn;
+  }
+
+  public getH2cCrossImgLoadErrFn() {
+    return h2cCrossImgLoadErrFn;
   }
 
   public setCanvasEvents(event: mouseEventType) {
